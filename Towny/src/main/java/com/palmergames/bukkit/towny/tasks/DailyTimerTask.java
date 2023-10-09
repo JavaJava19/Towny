@@ -389,6 +389,7 @@ public class DailyTimerTask extends TownyTimerTask {
 		 */
 		collectTownResidentTax(town);
 		if (taxCollected != 0.0) {
+			town.getAccount().deposit(taxCollected, "Town Tax (Percentage) paid by residents");
 			String msgSlug = taxCollected > 0.0 ? "msg_tax_collected_from_residents" : "msg_tax_paid_to_residents";
 			TownyMessaging.sendPrefixedTownMessage(town, Translatable.of(msgSlug, prettyMoney(taxCollected)));
 			taxCollected = 0.0;
@@ -471,7 +472,7 @@ public class DailyTimerTask extends TownyTimerTask {
 			if (tax == 0)
 				return true;
 			
-			resident.getAccount().payTo(tax, town, String.format("Town Tax (Percentage) paid by %s.", resident.getName()));
+			//resident.getAccount().payTo(tax, town, String.format("Town Tax (Percentage) paid by %s.", resident.getName()));
 			taxCollected += tax;
 			return true;
 		}

@@ -6,6 +6,7 @@ import com.palmergames.bukkit.towny.TownyMessaging;
 import com.palmergames.bukkit.towny.TownySettings;
 import com.palmergames.bukkit.towny.event.NewDayEvent;
 import com.palmergames.bukkit.towny.event.PreNewDayEvent;
+import com.palmergames.bukkit.towny.event.resident.ResidentCollectedTaxEvent;
 import com.palmergames.bukkit.towny.event.time.dailytaxes.NewDayTaxAndUpkeepPreCollectionEvent;
 import com.palmergames.bukkit.towny.event.time.dailytaxes.PreTownPaysNationTaxEvent;
 import com.palmergames.bukkit.towny.event.time.dailytaxes.TownPaysNationConqueredTaxEvent;
@@ -19,6 +20,7 @@ import com.palmergames.bukkit.towny.permissions.TownyPerms;
 import com.palmergames.bukkit.towny.utils.MoneyUtil;
 import com.palmergames.bukkit.util.BukkitTools;
 import com.palmergames.util.StringMgmt;
+import org.bukkit.Bukkit;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -389,7 +391,7 @@ public class DailyTimerTask extends TownyTimerTask {
 		 */
 		collectTownResidentTax(town);
 		if (taxCollected != 0.0) {
-			town.getAccount().deposit(taxCollected, "Town Tax (Percentage) paid by residents");
+			BukkitTools.fireEvent(new ResidentCollectedTaxEvent(town, taxCollected));
 			String msgSlug = taxCollected > 0.0 ? "msg_tax_collected_from_residents" : "msg_tax_paid_to_residents";
 			TownyMessaging.sendPrefixedTownMessage(town, Translatable.of(msgSlug, prettyMoney(taxCollected)));
 			taxCollected = 0.0;

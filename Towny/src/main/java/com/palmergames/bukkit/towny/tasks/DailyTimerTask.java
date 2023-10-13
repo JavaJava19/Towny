@@ -6,6 +6,7 @@ import com.palmergames.bukkit.towny.TownyMessaging;
 import com.palmergames.bukkit.towny.TownySettings;
 import com.palmergames.bukkit.towny.event.NewDayEvent;
 import com.palmergames.bukkit.towny.event.PreNewDayEvent;
+import com.palmergames.bukkit.towny.event.nation.NationCollectedTaxEvent;
 import com.palmergames.bukkit.towny.event.resident.ResidentCollectedTaxEvent;
 import com.palmergames.bukkit.towny.event.time.dailytaxes.NewDayTaxAndUpkeepPreCollectionEvent;
 import com.palmergames.bukkit.towny.event.time.dailytaxes.PreTownPaysNationTaxEvent;
@@ -235,6 +236,7 @@ public class DailyTimerTask extends TownyTimerTask {
 				TownyMessaging.sendPrefixedNationMessage(nation, Translatable.of("msg_town_destroyed_by_nation_tax_multiple").append(StringMgmt.join(localTownsDestroyed, ", ")));
 
 		if (taxCollected != 0.0) {
+			BukkitTools.fireEvent(new NationCollectedTaxEvent(nation, taxCollected));
 			String msgSlug = taxCollected > 0.0 ? "msg_tax_collected_from_towns" : "msg_tax_paid_to_towns";
 			TownyMessaging.sendPrefixedNationMessage(nation, Translatable.of(msgSlug, prettyMoney(taxCollected)));
 			taxCollected = 0.0;

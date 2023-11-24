@@ -201,6 +201,7 @@ public class TownyActionEventExecutor {
 	 */
 	public static boolean canBuild(Player player, Location loc, Material mat) {
 		TownyBuildEvent event = new TownyBuildEvent(player, loc, mat, getBlock(loc), TownyAPI.getInstance().getTownBlock(loc), false);
+		//TODO implement WorldGuard region flag override
 		return isAllowedAction(player, loc, mat, ActionType.BUILD, event);
 	}
 
